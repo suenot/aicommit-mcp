@@ -1,4 +1,5 @@
 # aicommit-mcp
+[![smithery badge](https://smithery.ai/badge/@suenot/aicommit-mcp)](https://smithery.ai/server/@suenot/aicommit-mcp)
 
 MCP (Model Context Protocol) server for aicommit - AI-powered git commit message generation.
 
