@@ -4,7 +4,7 @@ startCommand:
     type: object
     properties:
       maxTokens:
-        type: integer
+        type: number
         title: Maximum Tokens
         description: Maximum number of tokens in the generated commit message
         default: 50
