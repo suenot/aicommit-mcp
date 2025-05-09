@@ -1,0 +1,43 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      maxTokens:
+        type: integer
+        title: Maximum Tokens
+        description: Maximum number of tokens in the generated commit message
+        default: 50
+      staged_only:
+        type: boolean
+        title: Staged Only
+        description: Whether to only consider staged changes
+        default: true
+      verbose:
+        type: boolean
+        title: Verbose Output
+        description: Show detailed information about the execution
+        default: false
+      auto_install:
+        type: boolean
+        title: Auto Install
+        description: Automatically install aicommit if not found
+        default: true
+    additionalProperties: false
+  commandFunction: |
+    function getCommand(config) {
+      return {
+        command: "node",
+        args: ["index.js"],
+        env: {
+          MAX_TOKENS: config.maxTokens?.toString() || "50",
+          STAGED_ONLY: config.staged_only?.toString() || "true",
+          VERBOSE: config.verbose?.toString() || "false",
+          AUTO_INSTALL: config.auto_install?.toString() || "true"
+        }
+      };
+    }
+
+build:
+  dockerfile: "Dockerfile-bundled"
+  dockerBuildPath: "." 

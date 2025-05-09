@@ -7,6 +7,32 @@ const util = require('util');
 
 const execAsync = util.promisify(exec);
 
+// Read environment variables for Smithery compatibility
+const envMaxTokens = process.env.MAX_TOKENS ? parseInt(process.env.MAX_TOKENS, 10) : 50;
+const envStagedOnly = process.env.STAGED_ONLY === 'false' ? false : true;
+const envVerbose = process.env.VERBOSE === 'true' ? true : false;
+const envAutoInstall = process.env.AUTO_INSTALL === 'true' ? true : false;
+
+// Check if aicommit is installed and try to install it if configured
+async function checkAndInstallAicommit() {
+  try {
+    execSync('aicommit --version', { stdio: 'pipe' });
+    return true;
+  } catch (error) {
+    if (envAutoInstall) {
+      console.log('aicommit not found. Attempting to install automatically...');
+      try {
+        execSync('npm install -g aicommit', { stdio: 'inherit' });
+        return true;
+      } catch (installError) {
+        console.error('Failed to install aicommit:', installError.message);
+        return false;
+      }
+    }
+    return false;
+  }
+}
+
 // Create a new MCP server instance
 const server = new MCPServer({
   name: 'aicommit',
@@ -25,29 +51,28 @@ const tools = [
         staged_only: {
           type: 'boolean',
           description: 'Whether to only consider staged changes (true) or all changes (false)',
-          default: true
+          default: envStagedOnly
         },
         verbose: {
           type: 'boolean',
           description: 'Show detailed information about the execution',
-          default: false
+          default: envVerbose
         },
         max_tokens: {
           type: 'integer',
           description: 'Maximum number of tokens in the generated commit message',
-          default: 50
+          default: envMaxTokens
         }
       },
       required: []
     },
     handler: async (params) => {
-      const { staged_only = true, verbose = false, max_tokens = 50 } = params;
+      const { staged_only = envStagedOnly, verbose = envVerbose, max_tokens = envMaxTokens } = params;
       
       try {
         // Check if aicommit is installed
-        try {
-          execSync('aicommit --version', { stdio: 'pipe' });
-        } catch (error) {
+        const aicommitInstalled = await checkAndInstallAicommit();
+        if (!aicommitInstalled) {
           return {
             error: 'aicommit CLI is not installed. Please run "npm install -g aicommit" or "cargo install aicommit" to install it.'
           };
@@ -131,24 +156,23 @@ const tools = [
         verbose: {
           type: 'boolean',
           description: 'Show detailed information',
-          default: false
+          default: envVerbose
         },
         max_tokens: {
           type: 'integer',
           description: 'Maximum number of tokens for the generated commit message',
-          default: 50
+          default: envMaxTokens
         }
       },
       required: []
     },
     handler: async (params) => {
-      const { add = false, push = false, pull = false, verbose = false, max_tokens = 50 } = params;
+      const { add = false, push = false, pull = false, verbose = envVerbose, max_tokens = envMaxTokens } = params;
       
       try {
         // Check if aicommit is installed
-        try {
-          execSync('aicommit --version', { stdio: 'pipe' });
-        } catch (error) {
+        const aicommitInstalled = await checkAndInstallAicommit();
+        if (!aicommitInstalled) {
           return {
             error: 'aicommit CLI is not installed. Please run "npm install -g aicommit" or "cargo install aicommit" to install it.'
           };

@@ -1,0 +1,37 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      maxTokens:
+        type: integer
+        title: Maximum Tokens
+        description: Maximum number of tokens in the generated commit message
+        default: 50
+      staged_only:
+        type: boolean
+        title: Staged Only
+        description: Whether to only consider staged changes
+        default: true
+      verbose:
+        type: boolean
+        title: Verbose Output
+        description: Show detailed information about the execution
+        default: false
+    additionalProperties: false
+  commandFunction: |
+    function getCommand(config) {
+      return {
+        command: "node",
+        args: ["index.js"],
+        env: {
+          MAX_TOKENS: config.maxTokens?.toString() || "50",
+          STAGED_ONLY: config.staged_only?.toString() || "true",
+          VERBOSE: config.verbose?.toString() || "false"
+        }
+      };
+    }
+
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "." 

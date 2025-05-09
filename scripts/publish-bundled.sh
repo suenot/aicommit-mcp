@@ -28,6 +28,22 @@ npm whoami > /dev/null 2>&1 || {
   exit 1
 }
 
+# Backup original README
+if [ -f "README.md" ]; then
+  echo "📄 Backing up original README.md"
+  cp README.md README.md.backup
+else
+  echo "⚠️ Warning: README.md not found!"
+fi
+
+# Use README-BUNDLED for publishing
+if [ -f "README-BUNDLED.md" ]; then
+  echo "📄 Using README-BUNDLED.md for publishing bundled package"
+  cp README-BUNDLED.md README.md
+else
+  echo "⚠️ Warning: README-BUNDLED.md not found. Using existing README.md"
+fi
+
 # Backup original package.json
 echo "📄 Backing up original package.json"
 mv package.json package.json.backup
@@ -39,9 +55,21 @@ cp package-bundled.json package.json
 # Publish the package
 echo "🚀 Publishing bundled package to npm..."
 npm publish --access=public
+RESULT=$?
 
 # Restore original package.json
 echo "🔄 Restoring original package.json"
 mv package.json.backup package.json
 
-echo "✅ Bundled package published successfully!" 
+# Restore original README
+if [ -f "README.md.backup" ]; then
+  echo "🔄 Restoring original README.md"
+  mv README.md.backup README.md
+fi
+
+if [ $RESULT -eq 0 ]; then
+  echo "✅ Bundled package published successfully!" 
+else
+  echo "❌ Failed to publish bundled package!"
+  exit 1
+fi 

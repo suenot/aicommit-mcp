@@ -1,16 +1,14 @@
-# aicommit-mcp-bundled
+# aicommit-mcp
 
-MCP (Model Context Protocol) server for aicommit - AI-powered git commit message generation, bundled with aicommit.
+MCP (Model Context Protocol) server for aicommit - AI-powered git commit message generation.
 
 ## Overview
 
 This MCP server allows AI assistants (like Claude) to generate git commit messages for your code changes. It acts as a bridge between LLMs and the [aicommit](https://github.com/suenot/aicommit) tool, enabling AI-powered version control workflows.
 
-**This is the bundled version that automatically installs aicommit for you.**
-
 ## Package Location
 
-📦 [NPM Package: @suenot/aicommit-mcp-bundled](https://www.npmjs.com/package/@suenot/aicommit-mcp-bundled)
+📦 [NPM Package: @suenot/aicommit-mcp](https://www.npmjs.com/package/@suenot/aicommit-mcp)
 
 ## Features
 
@@ -19,28 +17,31 @@ This MCP server allows AI assistants (like Claude) to generate git commit messag
 - ✅ Check git status to understand your repository state
 - ✅ View configured LLM providers for aicommit
 - ✅ Support for automatic staging, pushing, and pulling
-- ✅ **Automatic installation** of aicommit during setup
 
 ## Installation
 
 ### Prerequisites
 
 - Node.js 14 or higher
-- npm or cargo (for aicommit installation)
+- aicommit CLI (installed separately)
 
-### Installation
+### Option 1: Install aicommit-mcp (requires aicommit to be installed separately)
 
 ```bash
-# Install the bundled MCP server
-npm install -g @suenot/aicommit-mcp-bundled
+# Install aicommit first
+npm install -g aicommit
+# or
+cargo install aicommit
 
-# During installation, you'll be prompted to choose between npm or cargo for aicommit installation
+# Install the MCP server
+npm install -g @suenot/aicommit-mcp
 ```
 
-The installation process will:
-1. Install aicommit using npm or cargo (your choice)
-2. Guide you through setting up an LLM provider for aicommit
-3. Configure everything needed to use the MCP server
+### Option 2: Install as a dependency in your project
+
+```bash
+npm install @suenot/aicommit-mcp
+```
 
 ## Usage
 
@@ -51,7 +52,7 @@ The installation process will:
 mcp-server-aicommit
 
 # Or using npx
-npx @suenot/aicommit-mcp-bundled
+npx @suenot/aicommit-mcp
 ```
 
 ## AI Assistant Integration
@@ -65,7 +66,7 @@ To use this MCP server with Claude, add it to your Claude configuration:
   "mcpServers": {
     "aicommit": {
       "command": "npx",
-      "args": ["-y", "@suenot/aicommit-mcp-bundled"]
+      "args": ["-y", "@suenot/aicommit-mcp"]
     }
   }
 }
@@ -80,7 +81,7 @@ Add the following to your Cursor configuration:
   "mcpServers": {
     "aicommit": {
       "command": "npx",
-      "args": ["-y", "@suenot/aicommit-mcp-bundled"]
+      "args": ["-y", "@suenot/aicommit-mcp"]
     }
   }
 }
@@ -95,7 +96,7 @@ Add the following to your Windsurf configuration:
   "mcpServers": {
     "aicommit": {
       "command": "npx",
-      "args": ["-y", "@suenot/aicommit-mcp-bundled"]
+      "args": ["-y", "@suenot/aicommit-mcp"]
     }
   }
 }
@@ -110,7 +111,7 @@ Add the following to your Cline configuration:
   "mcpServers": {
     "aicommit": {
       "command": "npx",
-      "args": ["-y", "@suenot/aicommit-mcp-bundled"]
+      "args": ["-y", "@suenot/aicommit-mcp"]
     }
   }
 }
@@ -121,17 +122,17 @@ Add the following to your Cline configuration:
 Install via Smithery CLI:
 
 ```bash
-npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client claude --config '{}'
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client claude --config '{}'
 ```
 
 You can also install for different clients by changing the `--client` parameter:
 
 ```bash
 # For Cursor
-npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client cursor --config '{}'
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client cursor --config '{}'
 
 # For Windsurf
-npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client windsurf --config '{}'
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client windsurf --config '{}'
 ```
 
 ## Functionality
@@ -159,7 +160,7 @@ Executes aicommit to generate a commit message and create the commit in one step
 
 **Parameters:**
 - `add` (boolean): Stage all changes before committing (default: false)
-- `push` (boolean): Push changes after committing (default: false) 
+- `push` (boolean): Push changes after committing (default: false)
 - `pull` (boolean): Pull changes before committing (default: false)
 - `verbose` (boolean): Show detailed information (default: false)
 - `max_tokens` (integer): Maximum number of tokens for the generated commit message (default: 50)
@@ -196,15 +197,6 @@ const result = await tools.list_aicommit_providers();
 console.log(result.providers);
 ```
 
-## Manual Configuration of aicommit
-
-If the automatic configuration of aicommit did not work, you can configure it manually:
-
-```bash
-# Configure aicommit providers
-aicommit --add-provider
-```
-
 ## License
 
 MIT
@@ -212,5 +204,5 @@ MIT
 ## Related
 
 - [aicommit](https://github.com/suenot/aicommit) - The CLI tool this MCP server uses
-- [@suenot/aicommit-mcp](https://www.npmjs.com/package/@suenot/aicommit-mcp) - The non-bundled version of this package ([Documentation](./README-REGULAR.md))
-- [Model Context Protocol](https://modelcontextprotocol.io/) - Learn more about MCP 
+- [Model Context Protocol](https://modelcontextprotocol.io/) - Learn more about MCP
+- [Bundled Version (@suenot/aicommit-mcp-bundled)](./README-BUNDLED.md) - Version that includes automatic aicommit installation 
