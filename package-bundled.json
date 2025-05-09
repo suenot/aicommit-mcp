@@ -1,0 +1,41 @@
+{
+  "name": "@suenot/aicommit-mcp-bundled",
+  "version": "0.1.2",
+  "description": "MCP server for generating git commit messages using AI (bundled with aicommit)",
+  "main": "index.js",
+  "bin": {
+    "mcp-server-aicommit": "./bin/server.js",
+    "mcp-server-aicommit-install": "./bin/bundled-install.js",
+    "mcp-server-aicommit-setup-claude": "./bin/setup-claude.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest",
+    "postinstall": "node ./bin/bundled-install.js",
+    "configure-claude": "node ./bin/setup-claude.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "aicommit",
+    "git",
+    "commit",
+    "ai",
+    "bundled"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/server": "^1.0.0",
+    "execa": "^5.0.0",
+    "gitconfig": "^2.0.8"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
