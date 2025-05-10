@@ -40,7 +40,7 @@ The bundled package that automatically installs aicommit for you.
 
 ```bash
 # Install aicommit first
-npm install -g aicommit
+npm install -g @suenot/aicommit
 # or
 cargo install aicommit
 

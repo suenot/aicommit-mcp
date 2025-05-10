@@ -29,7 +29,7 @@ This MCP server allows AI assistants (like Claude) to generate git commit messag
 
 ```bash
 # Install aicommit first
-npm install -g aicommit
+npm install -g @suenot/aicommit
 # or
 cargo install aicommit
 

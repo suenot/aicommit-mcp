@@ -13,7 +13,7 @@ try {
   console.log(`Found aicommit version: ${aicommitVersion}`);
 } catch (error) {
   console.warn('Warning: aicommit CLI is not installed. Some features may not work correctly.');
-  console.warn('To install aicommit, run: npm install -g aicommit or cargo install aicommit');
+  console.warn('To install aicommit, run: npm install -g @suenot/aicommit or cargo install aicommit');
 }
 
 // Start the server

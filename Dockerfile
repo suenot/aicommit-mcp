@@ -7,7 +7,6 @@ RUN apk add --no-cache git bash
 
 # Copy package files
 COPY package.json ./
-COPY package-lock.json ./
 
 # Install dependencies
 RUN npm install
@@ -16,7 +15,7 @@ RUN npm install
 COPY . .
 
 # Install aicommit globally using npm
-RUN npm install -g aicommit
+RUN npm install -g @suenot/aicommit
 
 # Expose MCP server
 ENTRYPOINT ["node", "index.js"] 

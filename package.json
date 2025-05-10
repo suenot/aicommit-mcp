@@ -32,9 +32,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/server": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.11.1",
     "execa": "^5.0.0",
-    "gitconfig": "^2.0.8"
+    "gitconfig": "^2.0.8",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "jest": "^29.5.0",

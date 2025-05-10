@@ -35,7 +35,14 @@ async function installBundled() {
     // Install aicommit
     console.log(`📦 Installing aicommit using ${installMethod}...`);
     if (installMethod === 'npm') {
-      execSync('npm install -g aicommit', { stdio: 'inherit' });
+      console.log('Installing aicommit via npm...');
+      try {
+        execSync('npm install -g @suenot/aicommit', { stdio: 'inherit' });
+        return true;
+      } catch (error) {
+        console.error('❌ Installation failed:', error.message);
+        process.exit(1);
+      }
     } else {
       execSync('cargo install aicommit', { stdio: 'inherit' });
     }
