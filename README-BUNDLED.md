@@ -42,6 +42,27 @@ The installation process will:
 2. Guide you through setting up an LLM provider for aicommit
 3. Configure everything needed to use the MCP server
 
+### Using Docker
+
+```bash
+# Pull the Docker image
+docker pull suenot/aicommit-mcp-bundled
+
+# Run the container (mapping your current directory to the container workspace)
+docker run -p 8888:8888 -v $(pwd):/workspace --name aicommit-mcp-bundled suenot/aicommit-mcp-bundled
+```
+
+#### Building your own Docker image
+
+If you want to build the Docker image yourself:
+
+```bash
+git clone https://github.com/suenot/aicommit-mcp.git
+cd aicommit-mcp
+docker build -t aicommit-mcp-bundled -f Dockerfile-bundled .
+docker run -p 8888:8888 -v $(pwd):/workspace --name aicommit-mcp-bundled aicommit-mcp-bundled
+```
+
 ## Usage
 
 ### Starting the server
@@ -52,6 +73,9 @@ mcp-server-aicommit
 
 # Or using npx
 npx @suenot/aicommit-mcp-bundled
+
+# Or using Docker
+docker run -p 8888:8888 -v $(pwd):/workspace suenot/aicommit-mcp-bundled
 ```
 
 ## AI Assistant Integration
@@ -66,6 +90,19 @@ To use this MCP server with Claude, add it to your Claude configuration:
     "aicommit": {
       "command": "npx",
       "args": ["-y", "@suenot/aicommit-mcp-bundled"]
+    }
+  }
+}
+```
+
+#### With Docker
+
+```json
+{
+  "mcpServers": {
+    "aicommit": {
+      "command": "docker",
+      "args": ["run", "--rm", "-v", "${workspaceFolder}:/workspace", "suenot/aicommit-mcp-bundled"]
     }
   }
 }
@@ -86,6 +123,19 @@ Add the following to your Cursor configuration:
 }
 ```
 
+#### With Docker
+
+```json
+{
+  "mcpServers": {
+    "aicommit": {
+      "command": "docker",
+      "args": ["run", "--rm", "-v", "${workspaceFolder}:/workspace", "suenot/aicommit-mcp-bundled"]
+    }
+  }
+}
+```
+
 ### Windsurf
 
 Add the following to your Windsurf configuration:
@@ -101,6 +151,19 @@ Add the following to your Windsurf configuration:
 }
 ```
 
+#### With Docker
+
+```json
+{
+  "mcpServers": {
+    "aicommit": {
+      "command": "docker",
+      "args": ["run", "--rm", "-v", "${workspaceFolder}:/workspace", "suenot/aicommit-mcp-bundled"]
+    }
+  }
+}
+```
+
 ### Cline
 
 Add the following to your Cline configuration:
@@ -111,6 +174,19 @@ Add the following to your Cline configuration:
     "aicommit": {
       "command": "npx",
       "args": ["-y", "@suenot/aicommit-mcp-bundled"]
+    }
+  }
+}
+```
+
+#### With Docker
+
+```json
+{
+  "mcpServers": {
+    "aicommit": {
+      "command": "docker",
+      "args": ["run", "--rm", "-v", "${workspaceFolder}:/workspace", "suenot/aicommit-mcp-bundled"]
     }
   }
 }

@@ -55,6 +55,28 @@ npm install -g @suenot/aicommit-mcp
 npm install -g @suenot/aicommit-mcp-bundled
 ```
 
+### Docker Installation
+
+You can also run the MCP server using Docker:
+
+#### Regular Version
+```bash
+# Pull the Docker image
+docker pull suenot/aicommit-mcp
+
+# Run the container
+docker run -p 8888:8888 -v $(pwd):/workspace --name aicommit-mcp suenot/aicommit-mcp
+```
+
+#### Bundled Version
+```bash
+# Pull the Docker image
+docker pull suenot/aicommit-mcp-bundled
+
+# Run the container
+docker run -p 8888:8888 -v $(pwd):/workspace --name aicommit-mcp-bundled suenot/aicommit-mcp-bundled
+```
+
 ## Assistant Integration
 
 ### Claude Desktop
@@ -66,6 +88,22 @@ npm install -g @suenot/aicommit-mcp-bundled
       "command": "npx",
       "args": ["-y", "@suenot/aicommit-mcp"]
       // For bundled version: "args": ["-y", "@suenot/aicommit-mcp-bundled"]
+    }
+  }
+}
+```
+
+### With Docker
+
+To use Docker with Claude Desktop, add this to your configuration:
+
+```json
+{
+  "mcpServers": {
+    "aicommit": {
+      "command": "docker",
+      "args": ["run", "--rm", "-v", "${workspaceFolder}:/workspace", "suenot/aicommit-mcp"]
+      // For bundled version: "args": ["run", "--rm", "-v", "${workspaceFolder}:/workspace", "suenot/aicommit-mcp-bundled"]
     }
   }
 }
