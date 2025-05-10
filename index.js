@@ -15,6 +15,20 @@ const envStagedOnly = process.env.STAGED_ONLY === 'false' ? false : true;
 const envVerbose = process.env.VERBOSE === 'true' ? true : false;
 const envAutoInstall = process.env.AUTO_INSTALL === 'true' ? true : false;
 
+/**
+ * IMPORTANT NOTE FOR SMITHERY DEPLOYMENT:
+ * 
+ * This implementation uses a "lazy loading" approach to check for aicommit installation.
+ * We DO NOT check for aicommit during server initialization, only when tools are actually called.
+ * 
+ * This design choice enables:
+ * 1. Proper tool listing in Smithery without requiring authentication/configuration
+ * 2. The ability to display tools on the Smithery web interface
+ * 3. Better user experience by only requiring tools when they are used
+ * 
+ * For more details, see: https://smithery.ai/docs/config
+ */
+
 // Check if aicommit is installed and try to install it if configured
 async function checkAndInstallAicommit() {
   try {
@@ -54,7 +68,7 @@ server.tool(
   },
   async ({ staged_only = envStagedOnly, verbose = envVerbose, max_tokens = envMaxTokens }) => {
     try {
-      // Check if aicommit is installed
+      // Lazy-loading: Check if aicommit is installed only when tool is called, not during initialization
       const aicommitInstalled = await checkAndInstallAicommit();
       if (!aicommitInstalled) {
         return {
@@ -140,7 +154,7 @@ server.tool(
   },
   async ({ add = false, push = false, pull = false, verbose = envVerbose, max_tokens = envMaxTokens }) => {
     try {
-      // Check if aicommit is installed
+      // Lazy-loading: Check if aicommit is installed only when tool is called, not during initialization
       const aicommitInstalled = await checkAndInstallAicommit();
       if (!aicommitInstalled) {
         return {

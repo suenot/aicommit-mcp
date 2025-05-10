@@ -77,6 +77,24 @@ docker pull suenot/aicommit-mcp-bundled
 docker run -p 8888:8888 -v $(pwd):/workspace --name aicommit-mcp-bundled suenot/aicommit-mcp-bundled
 ```
 
+## Smithery Deployment
+
+This MCP server is compatible with Smithery and can be deployed to the Smithery marketplace. The server implements "lazy loading" of the aicommit tool, which means:
+
+- Tool listing doesn't require authentication or configuration
+- Authentication and dependencies are only checked when tools are actually called
+- The server supports deployment and tool display in the Smithery web interface
+
+### Setting up with Smithery
+
+```bash
+# Using the Smithery CLI
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client claude --config '{}'
+
+# For bundled version
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client claude --config '{}'
+```
+
 ## Assistant Integration
 
 ### Claude Desktop

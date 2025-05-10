@@ -78,6 +78,83 @@ npx @suenot/aicommit-mcp-bundled
 docker run -p 8888:8888 -v $(pwd):/workspace suenot/aicommit-mcp-bundled
 ```
 
+## Smithery Deployment
+
+This MCP server can be deployed to Smithery and listed in the Smithery marketplace. The bundled version includes automatic installation capabilities which makes it more user-friendly.
+
+### How Tool Listing Works in Smithery
+
+In order for Smithery to display your tools on the web interface, tools must be accessible without requiring authentication or configuration. The aicommit-mcp-bundled server implements "lazy loading" of dependencies:
+
+- Tools are registered with the server during initialization
+- The automatic installation of aicommit is only attempted when a tool is actually called, not during initialization
+- This approach ensures that Smithery can list the tools without requiring any configuration
+
+### Deploying to Smithery
+
+1. Fork the repository or create your own with the required files
+2. Ensure your `smithery-bundled.yaml` is properly configured:
+
+```yaml
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      maxTokens:
+        type: number
+        title: Maximum Tokens
+        description: Maximum number of tokens in the generated commit message
+        default: 50
+      staged_only:
+        type: boolean
+        title: Staged Only
+        description: Whether to only consider staged changes
+        default: true
+      verbose:
+        type: boolean
+        title: Verbose Output
+        description: Show detailed information about the execution
+        default: false
+      auto_install:
+        type: boolean
+        title: Auto Install
+        description: Automatically install aicommit if not found
+        default: true
+    additionalProperties: false
+  commandFunction: |
+    function getCommand(config) {
+      return {
+        command: "node",
+        args: ["index.js"],
+        env: {
+          MAX_TOKENS: config.maxTokens?.toString() || "50",
+          STAGED_ONLY: config.staged_only?.toString() || "true",
+          VERBOSE: config.verbose?.toString() || "false",
+          AUTO_INSTALL: config.auto_install?.toString() || "true"
+        }
+      };
+    }
+
+build:
+  dockerfile: "Dockerfile-bundled"
+  dockerBuildPath: "."
+```
+
+3. Connect your repository to Smithery
+4. Deploy your server
+
+### Using Smithery CLI
+
+```bash
+# Install via Smithery CLI
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client claude --config '{}'
+
+# For specific clients
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client cursor --config '{}'
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client windsurf --config '{}'
+```
+
 ## AI Assistant Integration
 
 ### Claude Desktop

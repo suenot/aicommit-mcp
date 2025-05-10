@@ -79,6 +79,77 @@ npx @suenot/aicommit-mcp
 docker run -p 8888:8888 -v $(pwd):/workspace suenot/aicommit-mcp
 ```
 
+## Smithery Deployment
+
+This MCP server can be deployed to Smithery and listed in the Smithery marketplace. The server's architecture supports proper tool listing in the web interface without requiring authentication.
+
+### How Tool Listing Works in Smithery
+
+In order for Smithery to display your tools on the web interface, tools must be accessible without requiring authentication or configuration. The aicommit-mcp server implements "lazy loading" of dependencies:
+
+- Tools are registered with the server during initialization
+- The existence of the aicommit tool is only checked when a tool is actually called, not during initialization
+- This approach ensures that Smithery can list the tools without requiring any configuration
+
+### Deploying to Smithery
+
+1. Fork the repository or create your own with the required files
+2. Ensure your `smithery.yaml` is properly configured:
+
+```yaml
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      maxTokens:
+        type: number
+        title: Maximum Tokens
+        description: Maximum number of tokens in the generated commit message
+        default: 50
+      staged_only:
+        type: boolean
+        title: Staged Only
+        description: Whether to only consider staged changes
+        default: true
+      verbose:
+        type: boolean
+        title: Verbose Output
+        description: Show detailed information about the execution
+        default: false
+    additionalProperties: false
+  commandFunction: |
+    function getCommand(config) {
+      return {
+        command: "node",
+        args: ["index.js"],
+        env: {
+          MAX_TOKENS: config.maxTokens?.toString() || "50",
+          STAGED_ONLY: config.staged_only?.toString() || "true",
+          VERBOSE: config.verbose?.toString() || "false"
+        }
+      };
+    }
+
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "."
+```
+
+3. Connect your repository to Smithery
+4. Deploy your server
+
+### Using Smithery CLI
+
+```bash
+# Install via Smithery CLI
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client claude --config '{}'
+
+# For specific clients
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client cursor --config '{}'
+npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client windsurf --config '{}'
+```
+
 ## AI Assistant Integration
 
 ### Claude Desktop
