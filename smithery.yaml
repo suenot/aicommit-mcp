@@ -32,6 +32,22 @@ startCommand:
       };
     }
 
+# Add local installation support
+localInstall:
+  package:
+    name: "@suenot/aicommit-mcp"
+    version: "latest"
+    installCommand:
+      npm: "npm install -g @suenot/aicommit-mcp"
+      yarn: "yarn global add @suenot/aicommit-mcp"
+  postInstall:
+    description: |
+      Make sure you have aicommit installed:
+      npm install -g @suenot/aicommit
+      
+      Or with cargo:
+      cargo install aicommit
+
 build:
   dockerfile: "Dockerfile"
   dockerBuildPath: "." 

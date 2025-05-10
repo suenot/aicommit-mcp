@@ -38,6 +38,20 @@ startCommand:
       };
     }
 
+# Add local installation support
+localInstall:
+  package:
+    name: "@suenot/aicommit-mcp-bundled"
+    version: "latest"
+    installCommand:
+      npm: "npm install -g @suenot/aicommit-mcp-bundled"
+      yarn: "yarn global add @suenot/aicommit-mcp-bundled"
+  postInstall:
+    description: |
+      The bundled version will automatically install aicommit for you.
+      You can verify the installation by running:
+      aicommit --version
+
 build:
   dockerfile: "Dockerfile-bundled"
   dockerBuildPath: "." 

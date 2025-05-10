@@ -136,6 +136,20 @@ startCommand:
       };
     }
 
+# Add local installation support
+localInstall:
+  package:
+    name: "@suenot/aicommit-mcp-bundled"
+    version: "latest"
+    installCommand:
+      npm: "npm install -g @suenot/aicommit-mcp-bundled"
+      yarn: "yarn global add @suenot/aicommit-mcp-bundled"
+  postInstall:
+    description: |
+      The bundled version will automatically install aicommit for you.
+      You can verify the installation by running:
+      aicommit --version
+
 build:
   dockerfile: "Dockerfile-bundled"
   dockerBuildPath: "."
@@ -154,6 +168,29 @@ npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client claude
 npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client cursor --config '{}'
 npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client windsurf --config '{}'
 ```
+
+### Local Installation from Smithery
+
+You can install the bundled version directly from the Smithery web interface:
+
+1. Visit [Smithery](https://smithery.ai/server/@suenot/aicommit-mcp-bundled)
+2. Click "Continue Anyway" when prompted about local installation
+3. Select your preferred client (Claude, Cursor, etc.)
+4. Click "Install Server"
+
+**Advantage**: The bundled version will automatically install aicommit for you!
+
+### Troubleshooting Local Installation
+
+If you encounter the "Uh oh! This server works best locally..." error:
+
+1. Ensure you have Node.js 14+ installed
+2. Make sure the `smithery-bundled.yaml` file includes the `localInstall` section
+3. Install the package manually using npm:
+   ```bash
+   npm install -g @suenot/aicommit-mcp-bundled
+   ```
+4. Configure your MCP client (Claude, Cursor, etc.) as shown in the Assistant Integration section
 
 ## AI Assistant Integration
 

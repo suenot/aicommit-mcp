@@ -95,6 +95,32 @@ npx -y @smithery/cli@latest install @suenot/aicommit-mcp --client claude --confi
 npx -y @smithery/cli@latest install @suenot/aicommit-mcp-bundled --client claude --config '{}'
 ```
 
+### Local Installation from Smithery
+
+Both versions of the aicommit MCP server support direct installation from the Smithery web interface:
+
+1. Visit [Smithery](https://smithery.ai/server/@suenot/aicommit-mcp)
+2. Click "Continue Anyway" when prompted
+3. Select your preferred client (Claude, Cursor, etc.)
+4. Click "Install Server"
+
+The installer will guide you through the process:
+- For the regular version, you'll need to install aicommit separately
+- For the bundled version, aicommit will be installed automatically
+
+### Troubleshooting Local Installation
+
+If you encounter the "Uh oh! This server works best locally..." error:
+
+1. Ensure you have Node.js 14+ installed
+2. Install the package manually using npm:
+   ```bash
+   npm install -g @suenot/aicommit-mcp
+   # or for bundled version
+   npm install -g @suenot/aicommit-mcp-bundled
+   ```
+3. Configure your MCP client (Claude, Cursor, etc.) as shown in the Assistant Integration section
+
 ## Assistant Integration
 
 ### Claude Desktop
