@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/suenot-aicommit-mcp-badge.png)](https://mseep.ai/app/suenot-aicommit-mcp)
+
 # aicommit-mcp
 [![smithery badge](https://smithery.ai/badge/@suenot/aicommit-mcp)](https://smithery.ai/server/@suenot/aicommit-mcp)
 
